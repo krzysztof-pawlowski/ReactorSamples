@@ -12,9 +12,9 @@ public class FluxExample {
 
     public static void main(String[] args) throws InterruptedException {
 
-        Flux<Integer> flowable = Flux.just(1, 2, 3);
+        Flux<Integer> publisher = Flux.just(1, 2, 3);
 
-        flowable.subscribe(new Subscriber<Integer>() {
+        publisher.subscribe(new Subscriber<Integer>() {
 
             public void onSubscribe(Subscription subscription) {
                 subscription.request(Long.MAX_VALUE);

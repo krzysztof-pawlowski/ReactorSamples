@@ -10,7 +10,7 @@ public class FluxErrorExample {
 
     public static void main(String[] args) {
 
-        Flux<Integer> flowable = Flux.generate(subscriber -> {
+        Flux<Integer> publisher = Flux.generate(subscriber -> {
             log.info("Started emitting");
 
             log.info("Emitting 1st");
@@ -24,7 +24,7 @@ public class FluxErrorExample {
         log.info("EXAMPLE 1 - NO HANDLING");
         log.info("=======================");
 
-        flowable.subscribe(
+        publisher.subscribe(
             val -> log.info("Received: " + val),
             err -> log.error("Error: " + err),
             () -> log.info("Completed!")
@@ -34,7 +34,7 @@ public class FluxErrorExample {
         log.info("EXAMPLE 2 - RETURN ON ERROR");
         log.info("===========================");
 
-        flowable
+        publisher
             .onErrorReturn(-1)
             .subscribe(
                 val -> log.info("Received: " + val),
@@ -46,10 +46,10 @@ public class FluxErrorExample {
         log.info("EXAMPLE 3 - SWITCH STREAM ON ERROR");
         log.info("==================================");
 
-        Flux<Integer> flowableOnError = Flux.range(5, 3);
+        Flux<Integer> publisherOnError = Flux.range(5, 3);
 
-        flowable
-            .onErrorResumeWith(throwable -> flowableOnError)
+        publisher
+            .onErrorResumeWith(throwable -> publisherOnError)
             .subscribe(
                 val -> log.info("Received: " + val),
                 err -> log.error("Error: " + err),
